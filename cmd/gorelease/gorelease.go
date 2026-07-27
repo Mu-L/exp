@@ -1092,7 +1092,18 @@ func prepareLoadDir(ctx context.Context, modFile *modfile.File, modPath, modRoot
 	f.AddModuleStmt("gorelease-load-module")
 	f.AddRequire(modPath, version)
 	if !cached {
-		f.AddReplace(modPath, version, modRoot, "")
+		// Replace all versions of modPath (not just the specific version
+		// required above) with the local module directory. A version-scoped
+		// replace only takes effect when minimal version selection picks that
+		// exact version. If the module appears in its own build graph as a
+		// transitive dependency at a higher version (an import cycle across
+		// modules, e.g. a -> b -> a), MVS selects that higher version, the
+		// version-scoped replace is silently ignored, and the published
+		// module is loaded from the cache instead of the local directory.
+		// That makes the local module's API look like the older published
+		// version and reports spurious changes. A wildcard replace pins the
+		// local directory regardless of the selected version.
+		f.AddReplace(modPath, "", modRoot, "")
 	}
 	if modFile != nil {
 		if modFile.Go != nil {

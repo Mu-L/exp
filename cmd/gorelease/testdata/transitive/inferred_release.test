@@ -1,0 +1,6 @@
+mod=example.com/transitive
+version=v1.1.0
+base=v1.1.0
+-- want --
+# summary
+Suggested version: v1.1.1

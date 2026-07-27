@@ -1,0 +1,12 @@
+-- go.mod --
+module example.com/transitivedep
+
+go 1.25.0
+
+require example.com/transitive v1.0.0
+-- mod.go --
+package transitivedep
+
+import "example.com/transitive/p"
+
+func Helper() string { return p.Help }

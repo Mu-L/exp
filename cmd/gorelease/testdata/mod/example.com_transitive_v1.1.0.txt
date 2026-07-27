@@ -1,0 +1,20 @@
+-- go.mod --
+module example.com/transitive
+
+go 1.25.0
+
+require example.com/transitivedep v1.0.0
+-- go.sum --
+example.com/transitivedep v1.0.0 h1:Ak5Wu1MyvLk7hssGej2xlrSZQcBQUGZTEkfQQ6Saxcg=
+example.com/transitivedep v1.0.0/go.mod h1:2hwwDmbWo8gHf50CkEkNIWqFIDNdhb1qGdU/AgCehf0=
+-- transitive.go --
+package transitive
+
+import "example.com/transitivedep"
+
+func Foo() string { return transitivedep.Helper() }
+func Bar() string { return "bar" }
+-- p/constants.go --
+package p
+
+const Help = "help"

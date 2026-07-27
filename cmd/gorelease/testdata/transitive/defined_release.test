@@ -1,0 +1,7 @@
+mod=example.com/transitive
+version=v1.1.0
+base=v1.1.0
+release=v1.1.1
+-- want --
+# summary
+v1.1.1 is a valid semantic version for this release.
